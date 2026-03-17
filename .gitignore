@@ -1,0 +1,44 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build rezultati
+bin/
+obj/
+out/
+
+# NuGet
+*.nupkg
+packages/
+*.nuspec
+
+# Publish profili
+**/Properties/PublishProfiles/
+
+# ASP.NET
+wwwroot/dist/
+AppData/
+
+# Logovi
+*.log
+logs/
+
+# Environment / secrets
+.env
+.env.local
+appsettings.Development.json
+appsettings.Local.json
+
+# OS fajlovi
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Rider (JetBrains)
+.idea/
+
+# VS Code
+.vscode/
