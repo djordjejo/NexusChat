@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Enums
+namespace Domain.EnumMember
 {
     public enum AttachmentType
     {
         Image = 0,
-        Document = 1,
-        Video = 2,
-        Other = 3
+        Video = 1,
+        Other = 2,
     }
 }
