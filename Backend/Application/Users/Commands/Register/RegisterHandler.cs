@@ -1,0 +1,51 @@
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using Infrastructure.Persistence.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Users.Commands.Register
+{
+    public class RegisterHandler
+    {
+        private readonly IUnitOfWork unitOfWork;
+
+        public RegisterHandler(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+
+        public async Task<RegisterResult> HandleRegistration(
+            RegisterCommand command,
+            CancellationToken cancellationToken
+        )
+        {
+            var existingUser = await unitOfWork.Users.GetUserByEmail(command.Email);
+            if(existingUser == null)
+                    throw new Exception("User with this email already exists.");
+
+            var user = new User()
+            {
+                Id = Guid.NewGuid(),
+                Username = command.Username,
+                Email = command.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(command.Password),
+                CreatedAt = DateTime.UtcNow,
+                IsOnline = false
+            };
+
+            await unitOfWork.Users.AddAsync(user);
+           //await unitOfWork.Commit(cancellationToken);
+
+            return new RegisterResult
+            {
+                UserId = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
+        }
+    }
+}
