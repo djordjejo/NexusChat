@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Messages\" />
+    <Folder Include="DTO\" />
+    <Folder Include="Users\" />
+  </ItemGroup>
+
 </Project>

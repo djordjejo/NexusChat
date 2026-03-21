@@ -9,14 +9,14 @@ namespace Domain.Entities
 {
     public class MessageAttachment
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FileName { get; set; } = string.Empty;
         public string FileUrl { get; set; } = string.Empty;
         public long FileSize { get; set; }
         public string ContentType { get; set; } = string.Empty;
         public AttachmentType AttachmentType { get; set; }
         public DateTime UploadedAt { get; set; }
-        public int MessageId { get; set; }
+        public Guid MessageId { get; set; }
         public Message Message { get; set; }
     }
 }

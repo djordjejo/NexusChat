@@ -9,9 +9,9 @@ namespace Domain.Entities
 {
     public class ConversationMember
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int ConversationId { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ConversationId { get; set; }
         public MemberRole Role { get; set; } = MemberRole.Member;
         public DateTime JoinedAt { get; set; }
 
