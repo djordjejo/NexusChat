@@ -21,16 +21,16 @@ namespace Infrastructure.Persistence.Repository
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Users = new UserRepository(context),
-            Conversations = new ConversationsRepository(context),
-            Messages = new MessagesRepository(context),
-            ConversationMembers = new ConversationMembersRepository(context),
-            MessageAttachments = new MessageAttachmentsRepository(context),
+            Users = new UserRepository(context);
+            Conversations = new ConversationsRepository(context);
+            Messages = new MessagesRepository(context);
+            ConversationMembers = new ConversationMembersRepository(context);
+            MessageAttachments = new MessageAttachmentsRepository(context);
 
         }
-        public Task<int> Commit()
-        {
-            throw new NotImplementedException();
-        }
+            public async Task<int> Commit(CancellationToken cancellation)
+            {
+            return await _context.SaveChangesAsync(cancellation);
+            }
     }
 }

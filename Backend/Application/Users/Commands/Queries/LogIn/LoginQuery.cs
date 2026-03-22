@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.Queries.LogIn
 {
-    public class LoginQuery
+    public class LoginQuery : IRequest<LoginResult>
     {
+        public LoginQuery()
+        {
+        }
+
         public string Email { get; set; }
         public string Password { get; set; }
     }

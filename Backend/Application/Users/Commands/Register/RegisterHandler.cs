@@ -1,15 +1,17 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Persistence.Repository;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.Users.Commands.Register
 {
-    public class RegisterHandler
+    public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResult>
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -18,14 +20,11 @@ namespace Application.Users.Commands.Register
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<RegisterResult> HandleRegistration(
-            RegisterCommand command,
-            CancellationToken cancellationToken
-        )
+        public async Task<RegisterResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
             var existingUser = await unitOfWork.Users.GetUserByEmail(command.Email);
-            if(existingUser == null)
-                    throw new Exception("User with this email already exists.");
+            if (existingUser != null)
+                throw new Exception("User with this email already exists.");
 
             var user = new User()
             {
@@ -38,7 +37,7 @@ namespace Application.Users.Commands.Register
             };
 
             await unitOfWork.Users.AddAsync(user);
-           //await unitOfWork.Commit(cancellationToken);
+            await unitOfWork.Commit(cancellationToken);
 
             return new RegisterResult
             {
@@ -47,5 +46,6 @@ namespace Application.Users.Commands.Register
                 Email = user.Email
             };
         }
+
     }
 }

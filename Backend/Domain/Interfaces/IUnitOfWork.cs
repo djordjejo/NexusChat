@@ -13,6 +13,6 @@ namespace Domain.Interfaces
         IMessageRepository Messages { get; }
         IConversationMemberRepository ConversationMembers { get; }
         IMessageAttachmentRepository MessageAttachments { get; }
-        public Task<int> Commit();
+        public Task<int> Commit(CancellationToken cancellation);
     }
 }

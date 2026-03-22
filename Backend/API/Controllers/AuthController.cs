@@ -11,30 +11,34 @@ using Application.Users.Commands.Queries.LogIn;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-
-    public class AuthController : ControllerBase
-    {
-        private readonly IMediator _mediator;
-
-        public AuthController(IMediator mediator)
+        [ApiController]
+        [Route("api/[controller]")]
+        public class AuthController : ControllerBase
         {
-            _mediator = mediator;
-        }
+            private readonly IMediator _mediator;
 
-        [HttpPost("registera ")]
-        public async Task<IActionResult> Registry(RegisterCommand command) {
+            public AuthController(IMediator mediator)
+            {
+                _mediator = mediator;
+            }
 
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
+            [HttpPost("register")]
+            public async Task<IActionResult> Register(RegisterCommand command)
+            {
+                var result = await _mediator.Send(command);
+                return Created("", result); // 201 Created
+            }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> LogIn(LoginQuery query) {
-          
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            [HttpPost("login")]
+            public async Task<IActionResult> Login(LoginQuery query)
+            {
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                    return Unauthorized("Pogrešan email ili lozinka.");
+
+                return Ok(result);
+            }
         }
-    }
 }
+
