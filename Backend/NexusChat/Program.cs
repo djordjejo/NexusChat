@@ -1,3 +1,4 @@
+using Application.Conversations.Queries;
 using Application.Users.Commands.Register;
 using Domain.Interfaces;
 using Infrastructure.Persistence;
@@ -35,6 +36,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // MediatR — dodaj assembly gde su tvoji Handlers
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(RegisterCommand).Assembly));
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(GetConversationQuery).Assembly));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
