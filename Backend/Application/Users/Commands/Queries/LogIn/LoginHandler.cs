@@ -1,0 +1,47 @@
+﻿using Domain.Interfaces;
+using Infrastructure.Persistence.Repository;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Application.Users.Commands.Queries.LogIn
+{
+    public class LoginHandler : IRequestHandler<LoginQuery,LoginResult>
+    {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IJWTService jwtService;
+
+        public LoginHandler(IUnitOfWork unitOfWork, IJWTService jwtService)
+        {
+            this.unitOfWork = unitOfWork;
+            this.jwtService = jwtService;
+        }
+
+        public async Task<LoginResult> Handle(LoginQuery query, CancellationToken cancellationToken)
+        {
+            var user = await unitOfWork.Users.GetUserByEmail(query.Email);
+            if (user == null)
+                throw new Exception("Pogrešan email ili lozinka");
+
+            bool isValid = BCrypt.Net.BCrypt.Verify(query.Password, user.PasswordHash);
+            if (!isValid)
+                throw new Exception("Pogrešan email ili lozinka");
+
+
+            var token = jwtService.GenerateToken(user);
+
+            return new LoginResult
+            {
+                Token = token,
+                Username = user.Username,
+                UserId = user.Id
+            };
+        }
+
+     
+    }
+}
