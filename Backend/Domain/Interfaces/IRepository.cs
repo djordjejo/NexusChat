@@ -13,6 +13,6 @@ namespace Domain.Interfaces
         public Task DeleteAsync(T entity);
         public Task<T> UpdateAsync(T entity);
         public Task<T> GetByIdAsync(Guid id);
-        public Task<List<T>> GetAllasync();
+        public Task<List<T>> GetAllAsync();
     }
 }

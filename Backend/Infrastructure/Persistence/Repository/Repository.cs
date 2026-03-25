@@ -42,7 +42,7 @@ namespace Infrastructure.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<T>> GetAllasync()
+        public async Task<List<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }

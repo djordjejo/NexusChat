@@ -4,5 +4,6 @@ namespace Domain.Interfaces
 {
     public interface IConversationRepository : IRepository<Conversation>
     {
+
     }
 }
