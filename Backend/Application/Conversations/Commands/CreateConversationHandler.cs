@@ -1,12 +1,15 @@
-﻿using Application.DTO;
+﻿using Application.Conversations.Queries;
+using Application.DTO;
+using Application.DTO.Conversation;
 using Domain.Entities;
 using Domain.EnumMember;
 using Domain.Interfaces;
 using MediatR;
+using System.Security.Claims;
 
-namespace Application.Conversations.Commands.CreateConversation;
+namespace Application.Conversations.Commands;
 
-public class CreateConversationHandler : IRequestHandler<CreateConversationCommand, ConversationDto>
+public class CreateConversationHandler : IRequestHandler<CreateConversationQuery, ConversationDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -16,12 +19,11 @@ public class CreateConversationHandler : IRequestHandler<CreateConversationComma
     }
 
     public async Task<ConversationDto> Handle(
-        CreateConversationCommand command,
+        CreateConversationQuery command,
         CancellationToken cancellationToken)
     {
         if (command == null)
             throw new Exception("Conversation obj is null");
-
         var conversation = new Conversation
         {
             Name = command.Name,
@@ -66,7 +68,7 @@ public class CreateConversationHandler : IRequestHandler<CreateConversationComma
         return new ConversationDto
         {
             Id = conversation.Id,
-            Name = conversation.Name,
+            ConversationName = conversation.Name,
             IsGroup = conversation.IsGroup,
             CreatedAt = conversation.CreatedAt
         };

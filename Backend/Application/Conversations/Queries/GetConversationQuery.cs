@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.DTO.Conversation;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Application.Conversations.Queries
 {
-    public class GetConversationQuery : IRequest<List<ConversationDto>>
+    public class GetConversationQuery : IRequest<ConversationDto>
     {
-        public GetConversationQuery(Guid userId)
-        {
-            UserId = userId;
-        }
+        public Guid ConversationId { get; set; }
 
-        public Guid UserId { get; set; }
+        public GetConversationQuery(Guid conversationId)
+        {
+            ConversationId = conversationId;
+        }
     }
 }

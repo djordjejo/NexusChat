@@ -37,11 +37,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(RegisterCommand).Assembly));
 builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(GetConversationsQuery).Assembly));
+builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(GetConversationQuery).Assembly));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJWTService, JWTService>();
+builder.Services.AddScoped<IConversationMemberRepository, ConversationMembersRepository>();
+
 
 var app = builder.Build();
 

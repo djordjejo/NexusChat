@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repository
 {
@@ -12,9 +13,20 @@ namespace Infrastructure.Persistence.Repository
             _context = context;
         }
 
-        public Task<IEnumerable<Message>> GetByConversationIdAsync(int conversationId, int page, int pageSize)
+        public async Task<IEnumerable<Message>> GetByConversationIdAsync(Guid conversationId, int page, int pageSize)
         {
-            throw new NotImplementedException();
+            if (conversationId == Guid.Empty)
+                return Enumerable.Empty<Message>();
+
+            var conversations = await _context.Messages.Where(x => x.ConversationId == conversationId)
+            .OrderByDescending(x => x.SentAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Include(x => x.Sender)
+            .Include(x => x.Attachments)
+            .ToListAsync();
+
+            return conversations;
         }
     }
 }

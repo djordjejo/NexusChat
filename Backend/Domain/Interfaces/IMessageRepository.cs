@@ -3,7 +3,7 @@
 namespace Domain.Interfaces
 {
     public interface IMessageRepository : IRepository<Message> {
-        Task<IEnumerable<Message>> GetByConversationIdAsync(int conversationId, int page, int pageSize);
+       public Task<IEnumerable<Message>> GetByConversationIdAsync(Guid conversationId, int page, int pageSize);
 
     }
 }

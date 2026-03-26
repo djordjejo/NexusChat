@@ -13,15 +13,25 @@ namespace Infrastructure.Persistence.Repository
             dbContext = context;
         }
 
-        public async Task<IEnumerable<Conversation>> GetByUserIdAsync(Guid id)
+        public async Task<IEnumerable<Conversation>> GetConversationsAsync(Guid id)
         {
             var result = await dbContext.ConversationMembers
                 .Where(x => x.UserId.Equals(id))
-                .Include(x => x.Conversation)
-                .Select(x => x.Conversation)
-                .ToListAsync() ;
+                .Include(c => c.Conversation)
+                .Select(c => c.Conversation)
+                .ToListAsync();
 
             return result;
         }
+
+        public async Task<Conversation> GetConversationAsync(Guid id)
+        {
+            return await  dbContext.Conversations
+                        .Include(x => x.Messages)
+                        .Include(x => x.Members)
+                            .ThenInclude(x => x.User)
+                        .FirstOrDefaultAsync(x => x.Id == id);
+        }
+       
     }
 }
