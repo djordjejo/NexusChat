@@ -31,8 +31,7 @@ namespace Infrastructure.Persistence.Repository
 
         public async Task<List<T>> AddRangeAsync(List<T> entities)
         {
-             await _dbSet.AddRangeAsync(entities);
-             await _context.SaveChangesAsync();
+            await _dbSet.AddRangeAsync(entities);
             return entities;
         }
 
@@ -60,7 +59,6 @@ namespace Infrastructure.Persistence.Repository
         public async Task<T> UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
             return await Task.FromResult(entity);
         }
     }

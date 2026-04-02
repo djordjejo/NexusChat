@@ -18,7 +18,7 @@ namespace Infrastructure.Persistence.Repository
             if (conversationId == Guid.Empty)
                 return Enumerable.Empty<Message>();
 
-            var conversations = await _context.Messages.Where(x => x.ConversationId == conversationId)
+            var messages = await _context.Messages.Where(x => x.ConversationId == conversationId)
             .OrderByDescending(x => x.SentAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -26,7 +26,8 @@ namespace Infrastructure.Persistence.Repository
             .Include(x => x.Attachments)
             .ToListAsync();
 
-            return conversations;
+            return messages;
         }
+
     }
 }

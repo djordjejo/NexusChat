@@ -3,7 +3,6 @@ using Application.DTO.Conversation;
 using Application.DTO.Member;
 using Application.DTO.Messages;
 using Domain.Interfaces;
-using Infrastructure.Persistence.Repository;
 using MediatR;
 
 
@@ -29,12 +28,12 @@ namespace Application.Conversations.Commands
                 ConversationName = conversation.Name,
                 Messages = conversation.Messages.Select(x => new MessageDto
                 {
-                    Id = x.Id,
+                    MessageId = x.Id,
                     Content = x.Content
                 }).ToList(),
                 Members = conversation.Members.Select(x => new MemberDto
                 {
-                    UserId = x.Id,
+                    UserId = x.UserId,
                     Name = x.User.Username
                 }).ToList(),
             };

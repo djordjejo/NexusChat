@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.DTO.Attachment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Application.DTO.Messages
 {
     public class MessageDto
     {
-        public Guid Id { get; set;}
-        public string Content { get; set; }
-        public string SentAt { get; set; }
-        public bool IsEdited { get; set; }
-        public bool IsDeleted { get; set; }
-        public string SenderUsername { get; set;}
+        public Guid MessageId { get; set; }
+        public string Content { get; set; } = string.Empty;
+        public DateTime SentAt { get; set; }
+        public string SenderUsername { get; set; } = string.Empty;
+        public bool IsEdited { get; set; } = false;
+        public List<AttachmentDto> Attachments { get; set; } = new();
     }
 }
