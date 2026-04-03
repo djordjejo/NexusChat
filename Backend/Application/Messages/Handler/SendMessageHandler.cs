@@ -1,5 +1,6 @@
 ﻿using Application.DTO.Attachment;
 using Application.DTO.Messages;
+using Application.Interfaces;
 using Application.Messages.Command;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -10,10 +11,12 @@ namespace Application.Messages.Handler
     public class SendMessageHandler : IRequestHandler<SendMessageCommand, MessageDto>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IChatNotificationService _chatNotificationService;
 
-        public SendMessageHandler(IUnitOfWork unitOfWork)
+        public SendMessageHandler(IUnitOfWork unitOfWork, IChatNotificationService chatNotificationService)
         {
             _unitOfWork = unitOfWork;
+            _chatNotificationService = chatNotificationService;
         }
 
         public async Task<MessageDto> Handle(SendMessageCommand command, CancellationToken cancellationToken)
@@ -37,7 +40,7 @@ namespace Application.Messages.Handler
 
             var sender = await _unitOfWork.Users.GetByIdAsync(command.senderId);
 
-            return new MessageDto
+            var messageDto = new MessageDto
             {
                 MessageId = message.Id,
                 Content = message.Content,
@@ -46,6 +49,10 @@ namespace Application.Messages.Handler
                 IsEdited = message.IsEdited.Value,
                 Attachments = new List<AttachmentDto>()
             };
+            await _chatNotificationService.SendMessageAsync(
+                    command.ConversationId, messageDto);
+
+            return messageDto;
         }
     }
 }
