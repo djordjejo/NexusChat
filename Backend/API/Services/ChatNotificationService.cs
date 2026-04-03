@@ -18,7 +18,9 @@ namespace API.Services
         {
             await _hubContext.Clients
                 .Group(conversationId.ToString())
-                .SendAsync("ReceiveMessage", message);  
+                .SendAsync("ReceiveMessage", message);
+            Console.WriteLine($"Korisnik je usao u grupu: {conversationId}");
+
         }
     }
 }
